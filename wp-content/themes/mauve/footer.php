@@ -14,19 +14,34 @@
 	</div><!-- #content -->
 
 	<footer id="colophon" class="site-footer">
-		<div class="site-info">
-			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'mauve' ) ); ?>">
-				<?php
-				/* translators: %s: CMS name, i.e. WordPress. */
-				printf( esc_html__( 'Proudly powered by %s', 'mauve' ), 'WordPress' );
-				?>
-			</a>
-			<span class="sep"> | </span>
-				<?php
-				/* translators: 1: Theme name, 2: Theme author. */
-				printf( esc_html__( 'Theme: %1$s by %2$s.', 'mauve' ), 'mauve', '<a href="http://underscores.me/">Sergiu Caraian</a>' );
-				?>
-		</div><!-- .site-info -->
+		<div id="footer-logo">
+			<?php
+			if(is_active_sidebar('footer-logo')){
+			dynamic_sidebar('footer-logo');
+			}
+			?>
+		</div>
+		<div id="footer-contact">
+			<?php
+			if(is_active_sidebar('footer-contact')){
+			dynamic_sidebar('footer-contact');
+			}
+			?>
+		</div>
+		<div id="footer-social-media">
+			<?php
+			if(is_active_sidebar('footer-social-media')){
+			dynamic_sidebar('footer-social-media');
+			}
+			?>
+		</div>
+		<div id="footer-logo-secondary">
+			<?php
+			if(is_active_sidebar('footer-logo-secondary')){
+			dynamic_sidebar('footer-logo-secondary');
+			}
+			?>
+		</div>
 	</footer><!-- #colophon -->
 </div><!-- #page -->
 

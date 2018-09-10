@@ -44,7 +44,7 @@ if ( ! function_exists( 'mauve_setup' ) ) :
 
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus( array(
-			'menu-1' => esc_html__( 'Primary', 'mauve' ),
+			'header-menu' => esc_html__( 'Primary', 'mauve' ),
 		) );
 
 		/*
@@ -113,6 +113,51 @@ function mauve_widgets_init() {
 		'before_title'  => '<h2 class="widget-title">',
 		'after_title'   => '</h2>',
 	) );
+
+	register_sidebar(array(
+		'name' => 'Phone number in navigation dropdown',
+		'id' => 'phone-number-navigation'
+	));
+
+	register_widget("PhoneNumberWidget");
+
+
+	// register_sidebar( array(
+	// 	'name'          => esc_html__( 'Footer logo', 'mauve' ),
+	// 	'id'            => 'footer-logo',
+	// 	'description'   => esc_html__( 'Footer logo.', 'mauve' ),
+	// 	'before_widget' => '<section id="%1$s" class="widget %2$s">',
+	// 	'after_widget'  => '</section>',
+	// 	'before_title'  => '<h2 class="widget-title">',
+	// 	'after_title'   => '</h2>',
+	// ) );
+	// register_sidebar( array(
+	// 	'name'          => esc_html__( 'Footer contact', 'mauve' ),
+	// 	'id'            => 'footer-contact',
+	// 	'description'   => esc_html__( 'Footer contact.', 'mauve' ),
+	// 	'before_widget' => '<section id="%1$s" class="widget %2$s">',
+	// 	'after_widget'  => '</section>',
+	// 	'before_title'  => '<h2 class="widget-title">',
+	// 	'after_title'   => '</h2>',
+	// ) );
+	// register_sidebar( array(
+	// 	'name'          => esc_html__( 'Footer Social Media', 'mauve' ),
+	// 	'id'            => 'footer-social-media',
+	// 	'description'   => esc_html__( 'Footer social media.', 'mauve' ),
+	// 	'before_widget' => '<section id="%1$s" class="widget %2$s">',
+	// 	'after_widget'  => '</section>',
+	// 	'before_title'  => '<h2 class="widget-title">',
+	// 	'after_title'   => '</h2>',
+	// ) );
+	// register_sidebar( array(
+	// 	'name'          => esc_html__( 'Footer logo secondary', 'mauve' ),
+	// 	'id'            => 'footer-logo-secondary',
+	// 	'description'   => esc_html__( 'Footer logo secondary.', 'mauve' ),
+	// 	'before_widget' => '<section id="%1$s" class="widget %2$s">',
+	// 	'after_widget'  => '</section>',
+	// 	'before_title'  => '<h2 class="widget-title">',
+	// 	'after_title'   => '</h2>',
+	// ) );
 }
 add_action( 'widgets_init', 'mauve_widgets_init' );
 
@@ -120,6 +165,12 @@ add_action( 'widgets_init', 'mauve_widgets_init' );
  * Enqueue scripts and styles.
  */
 function mauve_scripts() {
+	wp_deregister_script( 'jquery' );
+	wp_enqueue_script( 'jquery', get_template_directory_uri() . '/js/jquery-3.3.1.min.js' , array(), '3.3.1', true );
+	wp_enqueue_script( 'bootstrap', get_template_directory_uri() . '/js/bootstrap.bundle.min.js' , array(), '4.1.2', true );
+	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/css/bootstrap.css' , array(), '4.1.2' );
+	wp_enqueue_style( 'hamburger', get_template_directory_uri() . '/css/hamburger.css' );
+
 	wp_enqueue_style( 'mauve-style', get_stylesheet_uri() );
 
 	wp_enqueue_script( 'mauve-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
@@ -129,6 +180,8 @@ function mauve_scripts() {
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
+
+	pll_register_string("HEADER_MENU_BUTTON_TEXT", "Menu");
 }
 add_action( 'wp_enqueue_scripts', 'mauve_scripts' );
 
@@ -153,9 +206,19 @@ require get_template_directory() . '/inc/template-functions.php';
 require get_template_directory() . '/inc/customizer.php';
 
 /**
+ * Custom widgets.
+ */
+require get_template_directory() . '/inc/phone-number-widget.php';
+
+/**
  * Load Jetpack compatibility file.
  */
 if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+function custom_bootstrap_slider()
+{
+	
+}
+add_action( 'init', 'custom_bootstrap_slider' );
